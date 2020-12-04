@@ -32,19 +32,8 @@ export default function BuscaCep() {
 
     const handleCep = () => {
 
-        navigation.navigate('ResultadoCep', {
-            cep: endereco.cep,
-            logradouro: endereco.logradouro,
-            complemento: endereco.complemento,
-            bairro: endereco.bairro,
-            localidade: endereco.localidade,
-            uf: endereco.uf,
-            ibge: endereco.ibge,
-            gia: endereco.gia,
-            ddd: endereco.ddd,
-            siafi: endereco.siafi,
-        })
-
+        navigation.navigate('ResultadoCep', endereco)
+        
         setCep('')
     }
 
