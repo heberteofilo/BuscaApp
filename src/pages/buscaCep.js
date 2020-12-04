@@ -9,7 +9,6 @@ export default function BuscaCep() {
     const [ cep, setCep ] = React.useState();
     const [ endereco, setEndereco ] = React.useState();
 
-
     useEffect(() => {
 
         axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
@@ -32,8 +31,8 @@ export default function BuscaCep() {
 
     const handleCep = () => {
 
-        navigation.navigate('ResultadoCep', endereco)
-        
+        navigation.navigate('ResultadoCep', endereco);
+
         setCep('')
     }
 
