@@ -24,7 +24,6 @@ export default function BuscaCep() {
                 ddd: response.data.ddd,
                 siafi: response.data.siafi,
             });    
-        
         }).catch((error) => console.log(error));
 
     }, [endereco, cep])
