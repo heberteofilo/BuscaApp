@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios';
@@ -7,12 +7,10 @@ export default function BuscaCep() {
 
     const navigation = useNavigation();
     const [ cep, setCep ] = React.useState();
-    const [ endereco, setEndereco ] = React.useState();
 
-    useEffect(() => {
-
+    const buscaCep = () => {
         axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
-            setEndereco({
+            const endereco = {
                 cep: response.data.cep,
                 logradouro: response.data.logradouro,
                 complemento: response.data.complemento,
@@ -23,16 +21,13 @@ export default function BuscaCep() {
                 gia: response.data.gia,
                 ddd: response.data.ddd,
                 siafi: response.data.siafi,
-            });    
+            };   
+            
+            navigation.navigate('ResultadoCep', endereco);
+
+            setCep('')
+
         }).catch((error) => console.log(error));
-
-    }, [endereco, cep])
-
-    const handleCep = () => {
-
-        navigation.navigate('ResultadoCep', endereco);
-
-        setCep('')
     }
 
     return (
@@ -47,7 +42,7 @@ export default function BuscaCep() {
             <Button 
             title='Confirmar'
             style={{width: 200, height: 40}}
-            onPress={() => handleCep()}
+            onPress={() => buscaCep()}
             />
         </View>
     )
