@@ -1,33 +1,36 @@
-import React from 'react'
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import axios from 'axios';
+import React from 'react';
+import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+// import axios from 'axios';
+import {consultarEndereco} from '../services/apiCep';
 
 export default function BuscaCep() {
 
     const navigation = useNavigation();
     const [ cep, setCep ] = React.useState();
 
-    const buscaCep = () => {
-        axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
-            const endereco = {
-                cep: response.data.cep,
-                logradouro: response.data.logradouro,
-                complemento: response.data.complemento,
-                bairro: response.data.bairro,
-                localidade: response.data.localidade,
-                uf: response.data.uf,
-                ibge: response.data.ibge,
-                gia: response.data.gia,
-                ddd: response.data.ddd,
-                siafi: response.data.siafi,
-            };   
+    const buscaCep = async () => {
+        // axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
+        //     const endereco = {
+        //         cep: response.data.cep,
+        //         logradouro: response.data.logradouro,
+        //         complemento: response.data.complemento,
+        //         bairro: response.data.bairro,
+        //         localidade: response.data.localidade,
+        //         uf: response.data.uf,
+        //         ibge: response.data.ibge,
+        //         gia: response.data.gia,
+        //         ddd: response.data.ddd,
+        //         siafi: response.data.siafi,
+        //     };   
+        const endereco = await consultarEndereco(cep);
             
-            navigation.navigate('ResultadoCep', endereco);
+        navigation.navigate('ResultadoCep', endereco);
 
-            setCep('')
+        setCep('')
 
-        }).catch((error) => console.log(error));
+        // }).catch((error) => console.log(error));
     }
 
     return (
