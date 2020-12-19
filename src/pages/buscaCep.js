@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // import axios from 'axios';
@@ -10,7 +10,7 @@ export default function BuscaCep() {
     const navigation = useNavigation();
     const [ cep, setCep ] = React.useState();
 
-    const buscaCep = async () => {
+    const consultarCep = async () => {
         // axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
         //     const endereco = {
         //         cep: response.data.cep,
@@ -23,14 +23,23 @@ export default function BuscaCep() {
         //         gia: response.data.gia,
         //         ddd: response.data.ddd,
         //         siafi: response.data.siafi,
-        //     };   
-        const endereco = await consultarEndereco(cep);
-            
-        navigation.navigate('ResultadoCep', endereco);
-
-        setCep('')
-
+        //     };
+        try {
+            if (cep.length === 8) {
+                const endereco = await consultarEndereco(cep)
+                
+                navigation.navigate('ResultadoCep', endereco);
+        
+                setCep('')
+            } 
+        } catch (err) {
+            console.log(err);
+        }
         // }).catch((error) => console.log(error));
+    }
+
+    const consultarHistorico = () => {
+        navigation.navigate('ResultadoHistorico');
     }
 
     return (
@@ -42,11 +51,21 @@ export default function BuscaCep() {
             onChangeText={(val) => setCep(val)}
             placeholder="Digite o cep"
             />
-            <Button 
-            title='Confirmar'
-            style={{width: 200, height: 40}}
-            onPress={() => buscaCep()}
-            />
+
+            <TouchableOpacity 
+            style={styles.btn}
+            onPress={() => consultarCep()}
+            >
+            <Text style={styles.btnText}>Consultar Endereço</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+            style={styles.btn}
+            onPress={() => consultarHistorico()}
+            > 
+            <Text style={styles.btnText}>Consultar Histórico</Text>
+            </TouchableOpacity>
+
         </View>
     )
 }
@@ -68,6 +87,20 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 10,
         borderColor: '#333',
+    },
+    btn: {
+        marginTop: 10,
+        height: 40,
+        width: 200,
+        backgroundColor: '#3498db',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+    },
+    btnText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     }
 
 });
