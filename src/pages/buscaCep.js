@@ -4,11 +4,30 @@ import { useNavigation } from '@react-navigation/native';
 
 // import axios from 'axios';
 import {consultarEndereco} from '../services/apiCep';
+import getRealm from '../services/realm';
 
 export default function BuscaCep() {
 
     const navigation = useNavigation();
     const [ cep, setCep ] = React.useState();
+
+    async function saveRepository(repository) {
+        
+        const repo = {
+            id: Math.floor(Date.now() / 1000),
+            validade: repository.logradouro === undefined ? "falso" : "verdadeiro",
+            message: repository.localidade === undefined ? "Nenhum dado foi encontrado" : "",
+            logradouro: repository.logradouro === undefined ? "" : repository.logradouro,
+            bairro: repository.bairro === undefined ? "" : repository.bairro,
+            localidade: repository.localidade === undefined ? "" : repository.localidade,
+            uf: repository.uf === undefined ? "" : repository.uf,
+        }      
+        const realm = await getRealm();
+
+        realm.write(() => {
+            realm.create('Enderecos', repo, 'modified');
+        });
+    }
 
     const consultarCep = async () => {
         // axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
@@ -27,6 +46,7 @@ export default function BuscaCep() {
         try {
             if (cep.length === 8) {
                 const endereco = await consultarEndereco(cep)
+                await saveRepository(endereco);
                 
                 navigation.navigate('ResultadoCep', endereco);
         

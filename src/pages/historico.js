@@ -2,14 +2,14 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 const Historico = React.memo(({item}) => {
-    if (item.validate) {
+    if (item.validade === 'verdadeiro') {
         return (
             <View style={[styles.container]}>
                 <Text style={{fontSize: 25, marginBottom: 10}}>Endereço</Text>
-                <Text style={{fontSize: 20}}>Logradouro: {item.data.logradouro}</Text>
-                <Text style={{fontSize: 20}}>Bairro: {item.data.bairro}</Text>
-                <Text style={{fontSize: 20}}>Cidade: {item.data.localidade}</Text>
-                <Text style={{fontSize: 20}}>UF: {item.data.uf}</Text>
+                <Text style={{fontSize: 20}}>Logradouro: {item.logradouro}</Text>
+                <Text style={{fontSize: 20}}>Bairro: {item.bairro}</Text>
+                <Text style={{fontSize: 20}}>Cidade: {item.localidade}</Text>
+                <Text style={{fontSize: 20}}>UF: {item.uf}</Text>
             </View>
         ); 
     } else {
