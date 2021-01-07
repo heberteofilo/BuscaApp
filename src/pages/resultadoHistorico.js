@@ -16,8 +16,7 @@ export default function ResultadoHistorico() {
             logradouro: '',
             bairro: '',
             localidade: '',
-            uf: '',
-            
+            uf: '',          
         },
     ];
 
