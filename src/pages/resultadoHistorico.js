@@ -29,7 +29,7 @@ export default function ResultadoHistorico() {
             const data = await realm.objects('Enderecos').sorted('id', true);
 
             setTotal(data.length > 0 ? data : '');  
-
+            //aqui
             } catch (err) {
                 console.log(err);
             }
